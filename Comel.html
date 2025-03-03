@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Comel</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(45deg, #001f3f, #000d1a);
+            color: white;
+            text-align: center;
+            font-family: 'Pacifico', cursive;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .moon {
+            font-size: 50px;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 5px yellow; }
+            100% { text-shadow: 0 0 15px yellow; }
+        }
+
+        .cat {
+            font-size: 40px;
+            display: inline-block;
+            animation: wave 1s infinite alternate;
+        }
+
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(20deg); }
+        }
+
+        .btn {
+            margin-top: 20px;
+            padding: 15px 25px;
+            font-size: 18px;
+            background: #ffcc00;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            color: black;
+            font-family: 'Orbitron', sans-serif;
+            box-shadow: 0 0 10px yellow;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 0 0 10px cyan, 0 0 20px cyan;
+            font-family: 'Orbitron', sans-serif;
+            min-height: 30px;
+            position: relative;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 0 5px white;
+        }
+
+        /* Karakter */
+        .character {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 50px;
+            opacity: 0;
+            transition: bottom 2s, opacity 1s;
+        }
+
+        .character.show {
+            bottom: 20px;
+            opacity: 1;
+        }
+
+        /* Animasi melempar love */
+        .love-throw {
+            position: absolute;
+            top: -20px;
+            left: 30px;
+            font-size: 30px;
+            color: white;
+            animation: loveThrow 1s linear forwards;
+        }
+
+        @keyframes loveThrow {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(50px, -50px) scale(1.5); opacity: 0; }
+        }
+
+        /* Hujan Love */
+        .love {
+            position: absolute;
+            top: -50px;
+            font-size: 30px;
+            color: pink;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        /* Bom */
+        .bomb {
+            position: absolute;
+            left: 50%;
+            bottom: -100px;
+            font-size: 50px;
+            transition: bottom 2s ease-in-out;
+            opacity: 0;
+        }
+
+        .bomb.show {
+            bottom: 100px;
+            opacity: 1;
+        }
+
+        .explosion {
+            font-size: 20px;
+            color: yellow;
+            font-weight: bold;
+            text-shadow: 0 0 10px red, 0 0 20px orange;
+            position: absolute;
+            bottom: 150px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="moon">🌙</div>
+        <h1>Untuk Comel</h1>
+        <p>Hihi Moga Suka</p>
+
+        <div class="cat">🐱👋</div>
+
+        <button id="messageButton" class="btn">Klik Secara Berurutan Ya</button>
+        
+        <div id="messageBox" class="message"></div>
+
+        <div class="footer">By: Kumis</div>
+    </div>
+
+    <!-- Hujan Love -->
+    <script>
+        function createLove() {
+            let love = document.createElement("div");
+            love.classList.add("love");
+            love.innerHTML = "❤️";
+            love.style.left = Math.random() * window.innerWidth + "px";
+            love.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.body.appendChild(love);
+
+            setTimeout(() => {
+                love.remove();
+            }, 5000);
+        }
+
+        setInterval(createLove, 500);
+    </script>
+
+    <!-- Karakter -->
+    <div id="character" class="character">👦🏻</div>
+
+    <!-- Bom -->
+    <div id="bomb" class="bomb">💣</div>
+    <div id="explosion" class="explosion">💥 Ada kejutan setelah puasa selesai!</div>
+
+    <script>
+        let messages = [
+           "Comel semangat terus ya puasanya hehe",
+            "Aku bakalan disini terus nunggu kamu pulang",
+            "Semoga puasanya lancar terus nggeh aminnn..",
+            "Hihi Semangat terus nggeh kalo bantuin bue sambil senyum biar aku juga ikutan senyum hihi",
+            "Ubur ubur ikan lele ,comel harus semangat Lee",
+            "Jaga diri baik-baik ya, Kalo ada yang jahat bilang ke aku",
+            "Saat berbuka nanti bukalah dengan yang manis² seperti kamu ,iya kamu hihi ",
+            "Semoga kita bisa menjalani ibadah ini dengan penuh kebahagiaan 🤲",
+            "Dadaaaa"
+        ];
+
+        let index = 0;
+        let character = document.getElementById("character");
+        let messageBox = document.getElementById("messageBox");
+        let bomb = document.getElementById("bomb");
+        let explosion = document.getElementById("explosion");
+
+        document.getElementById("messageButton").addEventListener("click", function() {
+            if (index >= messages.length) {
+                showCharacter();
+                return;
+            }
+
+            messageBox.innerHTML = messages[index];
+            index++;
+
+            if (index === messages.length) {
+                setTimeout(() => {
+                    showCharacter();
+                }, 1000);
+            }
+        });
+
+        function showCharacter() {
+            character.classList.add("show");
+            throwLove();
+
+            setTimeout(() => {
+                showBomb();
+            }, 2000);
+        }
+
+        function throwLove() {
+            let love = document.createElement("div");
+            love.classList.add("love-throw");
+            love.innerHTML = "🤍";
+            character.appendChild(love);
+
+            setTimeout(() => {
+                love.remove();
+            }, 1000);
+        }
+
+        function showBomb() {
+            bomb.classList.add("show");
+
+            setTimeout(() => {
+                explosion.style.opacity = "1";
+            }, 1500);
+        }
+    </script>
+
+</body>
+</html>
